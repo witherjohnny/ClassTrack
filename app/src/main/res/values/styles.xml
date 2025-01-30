@@ -5,4 +5,9 @@
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorSecondary">@color/teal_200</item>
     </style>
+
+    <style name="Widget.Theme.ClassTrack.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
 </resources>
