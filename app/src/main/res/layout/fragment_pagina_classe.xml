@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/fullscreenBackgroundColor"
+    android:background="@color/vibrant_orange"
     android:theme="@style/ThemeOverlay.ClassTrack.FullscreenContainer"
     tools:context=".PaginaClasse">
 
@@ -18,8 +18,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:keepScreenOn="true"
-        android:text="@string/dummy_content"
-        android:textColor="?attr/fullscreenTextColor"
+        android:textColor="@color/black"
         android:textSize="50sp"
         android:textStyle="bold" />
 
@@ -32,31 +31,44 @@
         android:fitsSystemWindows="true">
 
 
-        <Button
-            android:id="@+id/dummy_button"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="1273dp"
-            android:layout_height="70dp"
-            android:layout_marginBottom="4dp"
-            android:text="@string/dummy_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.571"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <TextView
             android:id="@+id/textClasse"
-            android:layout_width="425dp"
-            android:layout_height="134dp"
-            android:layout_marginTop="84dp"
-            android:contentDescription="@string/dummy_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="172dp"
             android:fontFamily="sans-serif"
             android:text="CLASSE"
             android:textAllCaps="false"
             android:textAppearance="@style/TextAppearance.AppCompat.Display4"
+            android:textColor="#000000"
+            android:textStyle="bold"
             android:typeface="normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="72dp"
+            android:fontFamily="sans-serif"
+            android:text="DOCENTE"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textClasse" />
+
+        <SearchView
+            android:id="@+id/searchView"
+            android:layout_width="512dp"
+            android:layout_height="64dp"
+            android:background="@drawable/search_background"
+            android:queryHint="Cerca..."
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
