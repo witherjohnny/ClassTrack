@@ -36,7 +36,8 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.4.0") // Compatible with API 16
     implementation("com.google.android.material:material:1.3.0") // Compatible with API 16
     implementation("androidx.constraintlayout:constraintlayout:2.1.4") // Compatible with API 16
-    implementation("androidx.fragment:fragment:1.3.6") // Add Fragment support
+    implementation("androidx.fragment:fragment:1.3.6")// Add Fragment support
+
 
     // Test dependencies (no changes needed)
     testImplementation("junit:junit:4.13.2")

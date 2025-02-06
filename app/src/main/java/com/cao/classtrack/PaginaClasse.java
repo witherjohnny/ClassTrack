@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 
 import android.app.Activity;
@@ -17,7 +18,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.SearchView;
 
 import com.cao.classtrack.databinding.FragmentPaginaClasseBinding;
 
@@ -115,7 +115,9 @@ public class PaginaClasse extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mVisible = true;
-        mContentView = binding.fullscreenContent;
+
+        // Inizializza mContentView correttamente
+        mContentView = binding.getRoot(); // Usa il root view del binding
         SearchView searchView = binding.searchView;
 
         mContentView.setOnClickListener(v -> {
@@ -184,17 +186,16 @@ public class PaginaClasse extends Fragment {
     }
 
     private void hide() {
-        // Hide UI first
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
         }
-        mControlsView.setVisibility(View.GONE);
         mVisible = false;
 
-        // Schedule a runnable to remove the status and navigation bar after a delay
-        mHideHandler.removeCallbacks(mShowPart2Runnable);
-        mHideHandler.postDelayed(mHidePart2Runnable, UI_ANIMATION_DELAY);
+        // Nasconde la SearchView se è visibile
+        if (binding.searchView.getVisibility() == View.VISIBLE) {
+            binding.searchView.setVisibility(View.GONE);
+        }
     }
 
     @SuppressLint("InlinedApi")
