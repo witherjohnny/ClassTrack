@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         builder.setPositiveButton("Confirm", (dialog, which) -> {
             String password = input.getText().toString();
-            if (password.equals("admin123")) { // Change this password as needed
+            if (password.equals("admin123")) { // Change this password as needed (from database)
                 resetPreference();
             } else {
                 Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT).show();
