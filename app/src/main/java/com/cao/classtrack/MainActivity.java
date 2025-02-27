@@ -1,33 +1,32 @@
 package com.cao.classtrack;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
     private FloatingActionButton optionsButton;
+    private final Handler autoRestartHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        optionsButton = findViewById(R.id.optionsButton);  // Initialize the FAB
+        optionsButton = findViewById(R.id.optionsButton);
 
-        // Load the initial fragment
         loadInitialFragment();
-
-        // Set the FAB click listener to show options
         optionsButton.setOnClickListener(v -> showOptionsMenu());
     }
 
@@ -39,10 +38,9 @@ public class MainActivity extends AppCompatActivity {
                 ("classe".equals(scelta)) ? new PaginaClasse() : new PaginaPiano();
 
         try {
-            // Replace fragment
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainerView, fragment)
-                    .commit();
+                    .commitAllowingStateLoss(); // Use commitAllowingStateLoss to prevent crashes
         } catch (Exception e) {
             Log.e("MainActivity", "Error loading fragment", e);
         }
@@ -58,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
         builder.setPositiveButton("Confirm", (dialog, which) -> {
             String password = input.getText().toString();
-            if (password.equals("admin123")) { // Change this password as needed (from database)
+            if (password.equals("admin123")) {
                 resetPreference();
             } else {
                 Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT).show();
@@ -66,40 +64,24 @@ public class MainActivity extends AppCompatActivity {
         });
 
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
-
         AlertDialog dialog = builder.create();
-
-        // Handler per chiudere il dialog dopo 5 secondi di inattività
-        android.os.Handler handler = new android.os.Handler();
+        Handler handler = new Handler();
         Runnable dismissRunnable = () -> {
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
         };
-
-        // TextWatcher per rilevare quando l'utente scrive
         input.addTextChangedListener(new android.text.TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                handler.removeCallbacks(dismissRunnable); // Resetta il timer quando l'utente scrive
-                handler.postDelayed(dismissRunnable, 5000); // Riavvia il timer a 5 secondi
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                handler.removeCallbacks(dismissRunnable);
+                handler.postDelayed(dismissRunnable, 5000);
             }
-
-            @Override
-            public void afterTextChanged(android.text.Editable s) {}
+            @Override public void afterTextChanged(android.text.Editable s) {}
         });
-
-        // Avvia il timer iniziale (se l'utente non interagisce affatto)
         handler.postDelayed(dismissRunnable, 5000);
-
         dialog.show();
     }
-
-
-
 
     private void resetPreference() {
         SharedPreferences preferences = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
@@ -108,12 +90,15 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
         Toast.makeText(this, "Preference reset", Toast.LENGTH_SHORT).show();
 
-        // Controlla se l'activity è ancora attiva prima di sostituire il fragment
         if (!isFinishing()) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainerView, new ChoiceFragment())
-                    .commitAllowingStateLoss();
+                    .commitAllowingStateLoss(); // Commit with allowing state loss
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        // Disables back button
+    }
 }

@@ -5,6 +5,7 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="0dp"
     tools:context=".ChoiceFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -26,31 +27,88 @@
 
 
     <Button
-        android:id="@+id/btnClasse"
-        android:layout_width="374dp"
-        android:layout_height="244dp"
-        android:layout_marginStart="184dp"
-        android:layout_marginLeft="184dp"
-        android:layout_marginTop="276dp"
-        android:text="Bacheca classe"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:id="@+id/btnConferma"
+        android:layout_width="245dp"
+        android:layout_height="97dp"
+        android:layout_marginBottom="40dp"
+        android:text="Conferma"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnPiano"
-        android:layout_width="371dp"
-        android:layout_height="240dp"
-        android:layout_marginTop="280dp"
-        android:layout_marginEnd="116dp"
-        android:layout_marginRight="116dp"
-        android:text="Bacheca piano"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.613"
-        app:layout_constraintStart_toEndOf="@+id/btnClasse"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.879"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="242dp"
+        android:layout_height="121dp"
+        android:layout_marginTop="40dp"
+        android:padding="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.058"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <RadioButton
+            android:id="@+id/radioBacheca"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Bacheca"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+        <RadioButton
+            android:id="@+id/radioLotto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Lotto"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+    </RadioGroup>
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteLotto"
+        android:layout_width="491dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="40dp"
+        android:completionThreshold="1"
+        android:hint="Lotto"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintBottom_toTopOf="@+id/btnConferma"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.394"
+        app:layout_constraintStart_toEndOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompletePiano"
+        android:layout_width="491dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="64dp"
+        android:completionThreshold="1"
+        android:hint="Piano"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintBottom_toTopOf="@+id/btnConferma"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.394"
+        app:layout_constraintStart_toEndOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/autoCompleteLotto"
+        app:layout_constraintVertical_bias="0.044" />
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteAula"
+        android:layout_width="491dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="72dp"
+        android:completionThreshold="1"
+        android:hint="Aula"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintBottom_toTopOf="@+id/btnConferma"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.394"
+        app:layout_constraintStart_toEndOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/autoCompletePiano"
+        app:layout_constraintVertical_bias="0.108" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
