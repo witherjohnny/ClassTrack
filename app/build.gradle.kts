@@ -38,6 +38,11 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4") // Compatible with API 16
     implementation("androidx.fragment:fragment:1.3.6")// Add Fragment support
 
+    // OkHttp for network requests
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
+
+    // JSON parsing library
+    implementation("org.json:json:20210307")
 
     // Test dependencies (no changes needed)
     testImplementation("junit:junit:4.13.2")

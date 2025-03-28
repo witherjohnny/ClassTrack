@@ -20,7 +20,7 @@ import java.util.List;
 
 public class ChoiceFragment extends Fragment {
     private FragmentChoiceBinding binding;
-    private DatabaseHelper databaseHelper;
+    private ApiHelper apiHelper;
     private ArrayAdapter<String> adapter;
 
     @Override
@@ -65,7 +65,7 @@ public class ChoiceFragment extends Fragment {
             }
         });
 
-        databaseHelper = new DatabaseHelper(requireContext());
+        apiHelper = new ApiHelper();
 
         // Inizializza l'adapter vuoto
         adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, new String[]{});
@@ -87,9 +87,9 @@ public class ChoiceFragment extends Fragment {
     }
 
     private void updateSuggestions(String input) {
-        List<String> suggestions = databaseHelper.getFiltered(input);
+        //List<String> suggestions = databaseHelper.getFiltered(input);
         adapter.clear();
-        adapter.addAll(suggestions);
+        //adapter.addAll(suggestions);
         adapter.notifyDataSetChanged();
     }
 
