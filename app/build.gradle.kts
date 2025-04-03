@@ -37,12 +37,19 @@ dependencies {
     implementation("com.google.android.material:material:1.3.0") // Compatible with API 16
     implementation("androidx.constraintlayout:constraintlayout:2.1.4") // Compatible with API 16
     implementation("androidx.fragment:fragment:1.3.6")// Add Fragment support
+// Networking - Retrofit & OkHttp
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0") // Parsing JSON con Gson
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0") // Log delle richieste API
 
-    // OkHttp for network requests
-    implementation("com.squareup.okhttp3:okhttp:4.9.3")
+    // JSON parsing con Gson
+    implementation("com.google.code.gson:gson:2.10.1")
 
-    // JSON parsing library
-    implementation("org.json:json:20210307")
+
+    // Lifecycle & ViewModel (per gestione UI state)
+    //implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    //implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+
 
     // Test dependencies (no changes needed)
     testImplementation("junit:junit:4.13.2")

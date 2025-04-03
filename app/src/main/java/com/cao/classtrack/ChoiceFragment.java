@@ -87,9 +87,9 @@ public class ChoiceFragment extends Fragment {
     }
 
     private void updateSuggestions(String input) {
-        //List<String> suggestions = databaseHelper.getFiltered(input);
+        List<String> suggestions = apiHelper.getDocente();
         adapter.clear();
-        //adapter.addAll(suggestions);
+        adapter.addAll(suggestions);
         adapter.notifyDataSetChanged();
     }
 
