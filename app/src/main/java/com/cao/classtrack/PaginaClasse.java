@@ -51,8 +51,8 @@ public class PaginaClasse extends Fragment {
 
             // Aggiorna i TextView nella UI Thread
             handler.post(() -> {
-                binding.textClasse.setText("classe");
-                binding.textDocente.setText("docente");
+                binding.textClasse.setText(classe);
+                binding.textDocente.setText(docente);
             });
         }).start();
     }
