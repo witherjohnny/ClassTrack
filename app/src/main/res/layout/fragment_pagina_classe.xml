@@ -44,7 +44,7 @@
             android:id="@+id/textClasse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="172dp"
+            android:layout_marginTop="144dp"
             android:fontFamily="sans-serif"
             android:text="CLASSE"
             android:textAllCaps="false"
@@ -53,6 +53,7 @@
             android:textStyle="bold"
             android:typeface="normal"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.482"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -60,15 +61,17 @@
             android:id="@+id/textDocente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="72dp"
+            android:layout_marginTop="68dp"
             android:fontFamily="sans-serif"
             android:text="DOCENTE"
             android:textAppearance="@style/TextAppearance.AppCompat.Display3"
             android:textColor="#000000"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textClasse" />
+            app:layout_constraintTop_toBottomOf="@+id/textClasse"
+            app:layout_constraintVertical_bias="0.062" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

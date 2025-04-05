@@ -1,4 +1,4 @@
-package com.cao.classtrack;
+package com.cao.classtrack.classes;
 
 import android.util.Log;
 
@@ -11,19 +11,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-
-import java.security.NoSuchAlgorithmException;
-import java.security.KeyManagementException;
-import java.security.cert.X509Certificate;
-import java.security.cert.CertificateException;
-
 public class ApiHelper {
 
-    private static final String API_URL = "http://192.168.71.1/cao/tablet/"; // Cambia localhost con IP server
+    private static final String API_URL = "http://192.168.1.100/PHP/ClassTrackphp/tablet/"; // Cambia localhost con IP server
     private OkHttpClient client;
 
     public ApiHelper() {
@@ -54,8 +44,8 @@ public class ApiHelper {
         return result;
     }
 
-    public ArrayList<String> getClasseEDocenteAttuale(int ID_aula, String giorno, int orario) {
-        ArrayList<String> result = new ArrayList<>();
+    public JSONObject getClasseEDocenteAttuale(int ID_aula, String giorno, int orario) {
+
 
         // Codifica i parametri per evitare problemi con caratteri speciali
         String payload = String.format("aula=%s&giorno=%s&orario=%s", ID_aula, giorno, orario);
@@ -76,17 +66,17 @@ public class ApiHelper {
                     JSONArray jsonArray = new JSONArray(jsonData);
                     if (jsonArray.length() == 0) {
                         Log.d("ApiRequest", "Nessun dato ricevuto dall'API.");
-                        return result;
+                        return null;
                     }
 
                     // Itera sugli oggetti JSON
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject obj = jsonArray.getJSONObject(i);
+                    if (jsonArray.length() == 1) {
+                        JSONObject obj = jsonArray.getJSONObject(0);
                         // Verifica se tutti i dati richiesti sono presenti
-                        if (obj.has("nome") && obj.has("cognome") && obj.has("annoSezione") && obj.has("indirizzo")) {
-                            // Aggiungi i dati alla lista
-                            result.add(obj.getString("nome") + " " + obj.getString("cognome")); // Docente
-                            result.add(obj.getString("annoSezione") + " " + obj.getString("indirizzo")); // Classe
+                        if (obj.has("nomeCognome") && obj.has("annoSezione") && obj.has("indirizzo")) {
+
+                            return obj;
+
                         } else {
                             Log.d("ApiRequest", "Dati mancanti nel JSON!");
                         }
@@ -99,6 +89,56 @@ public class ApiHelper {
             }
         } catch (IOException e) {
             Log.e("ApiRequest", "Errore nella richiesta API: " + e.getMessage());
+        }
+
+        return null;
+    }
+    public ArrayList<JSONObject> getLotti(){
+        ArrayList<JSONObject> result = new ArrayList<>();
+        String fullUrl = API_URL + "getLotti.php" ;
+
+        Request request = new Request.Builder().url(fullUrl).build();
+
+        try (Response response = client.newCall(request).execute()) {  // Automaticamente chiude la risposta
+            if (response.isSuccessful() && response.body() != null) {
+                String jsonData = response.body().string();
+                JSONArray jsonArray = new JSONArray(jsonData);
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject obj = jsonArray.getJSONObject(i);
+                    if (obj.has("id") && obj.has("area_name")) {
+                        // Aggiungi i dati alla lista
+                        result.add(obj);
+                    }
+                }
+            }
+        } catch (IOException | JSONException e) {
+            Log.e("ApiRequest", "Errore nella richiesta API:" + e.getMessage());
+        }
+
+        return result;
+    }
+    public ArrayList<JSONObject> getRooms(){
+        ArrayList<JSONObject> result = new ArrayList<>();
+        String fullUrl = API_URL + "getRooms.php" ;
+
+        Request request = new Request.Builder().url(fullUrl).build();
+
+        try (Response response = client.newCall(request).execute()) {  // Automaticamente chiude la risposta
+            if (response.isSuccessful() && response.body() != null) {
+                String jsonData = response.body().string();
+                JSONArray jsonArray = new JSONArray(jsonData);
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject obj = jsonArray.getJSONObject(i);
+                    if (obj.has("id") && obj.has("room_name")) {
+                        // Aggiungi i dati alla lista
+                        result.add(obj);
+                    }
+                }
+            }
+        } catch (IOException | JSONException e) {
+            Log.e("ApiRequest", "Errore nella richiesta API:" + e.getMessage());
         }
 
         return result;
