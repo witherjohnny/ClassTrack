@@ -102,6 +102,7 @@ public class ChoiceFragment extends Fragment {
 
                 if (lottoSelezionato != null) {
                     editor.putInt("lotto_id", lottoSelezionato.id);
+                    editor.putString("lotto_name", lottoSelezionato.name);
                 }
 
                 String piano = binding.spinnerPiani.getSelectedItem().toString();

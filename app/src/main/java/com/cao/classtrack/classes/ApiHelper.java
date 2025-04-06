@@ -22,9 +22,11 @@ public class ApiHelper {
     }
 
 
-    public ArrayList<String> getDocente() {
-        ArrayList<String> result = new ArrayList<>();
-        Request request = new Request.Builder().url(API_URL).build();
+    public ArrayList<JSONObject> getDocenti() {
+        ArrayList<JSONObject> result = new ArrayList<>();
+        String fullUrl = API_URL + "getDocenti.php" ;
+        Log.d("ApiRequest", "URL chiamata API: " + fullUrl); // DEBUG
+        Request request = new Request.Builder().url(fullUrl).build();
 
         try (Response response = client.newCall(request).execute()) {  // Automaticamente chiude la risposta
             if (response.isSuccessful() && response.body() != null) {
@@ -33,12 +35,14 @@ public class ApiHelper {
 
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject obj = jsonArray.getJSONObject(i);
-                    // Aggiungi i dati come necessario
-                    // Esempio: result.add(obj.getString("nome"));
+                    if (obj.has("ID") && obj.has("nomeCognome")) {
+                        // Aggiungi i dati alla lista
+                        result.add(obj);
+                    }
                 }
             }
         } catch (IOException | JSONException e) {
-            e.printStackTrace();
+            Log.e("ApiRequest", "Errore nella richiesta API:" + e.getMessage());
         }
 
         return result;
@@ -96,7 +100,7 @@ public class ApiHelper {
     public ArrayList<JSONObject> getLotti(){
         ArrayList<JSONObject> result = new ArrayList<>();
         String fullUrl = API_URL + "getLotti.php" ;
-
+        Log.d("ApiRequest", "URL chiamata API: " + fullUrl); // DEBUG
         Request request = new Request.Builder().url(fullUrl).build();
 
         try (Response response = client.newCall(request).execute()) {  // Automaticamente chiude la risposta
@@ -121,7 +125,7 @@ public class ApiHelper {
     public ArrayList<JSONObject> getRooms(){
         ArrayList<JSONObject> result = new ArrayList<>();
         String fullUrl = API_URL + "getRooms.php" ;
-
+        Log.d("ApiRequest", "URL chiamata API: " + fullUrl); // DEBUG
         Request request = new Request.Builder().url(fullUrl).build();
 
         try (Response response = client.newCall(request).execute()) {  // Automaticamente chiude la risposta
@@ -142,6 +146,61 @@ public class ApiHelper {
         }
 
         return result;
+    }
+    public ArrayList<JSONObject> getClassi(){
+        ArrayList<JSONObject> result = new ArrayList<>();
+        String fullUrl = API_URL + "getClassi.php" ;
+        Log.d("ApiRequest", "URL chiamata API: " + fullUrl); // DEBUG
+        Request request = new Request.Builder().url(fullUrl).build();
+
+        try (Response response = client.newCall(request).execute()) {  // Automaticamente chiude la risposta
+            if (response.isSuccessful() && response.body() != null) {
+                String jsonData = response.body().string();
+                JSONArray jsonArray = new JSONArray(jsonData);
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject obj = jsonArray.getJSONObject(i);
+                    if (obj.has("ID") && obj.has("annoSezione")&& obj.has("indirizzo")) {
+                        // Aggiungi i dati alla lista
+                        result.add(obj);
+                    }
+                }
+            }
+        } catch (IOException | JSONException e) {
+            Log.e("ApiRequest", "Errore nella richiesta API:" + e.getMessage());
+        }
+
+        return result;
+    }
+    public ArrayList<JSONObject> searchDocentiOClasse(String input,String giorno, int orario){
+        ArrayList<JSONObject> result = new ArrayList<>();
+        String payload = String.format("input=%s&giorno=%s&orario=%s", input, giorno, orario);
+
+        String fullUrl = API_URL + "trovaDocenteOClasse.php?" + payload;
+
+        Log.d("ApiRequest", "URL chiamata API: " + fullUrl); // DEBUG
+
+        Request request = new Request.Builder().url(fullUrl).build();
+
+        try (Response response = client.newCall(request).execute()) {  // Automaticamente chiude la risposta
+            if (response.isSuccessful() && response.body() != null) {
+                String jsonData = response.body().string();
+                JSONArray jsonArray = new JSONArray(jsonData);
+                if (jsonArray.length() == 0) {
+                    Log.d("ApiRequest", "Nessun dato ricevuto dall'API.");
+                    return null;
+                }
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject obj = jsonArray.getJSONObject(i);
+                    result.add(obj);
+                }
+            }
+        } catch (IOException | JSONException e) {
+            Log.e("ApiRequest", "Errore nella richiesta API:" + e.getMessage());
+        }
+
+        return result;
+
     }
 
 }

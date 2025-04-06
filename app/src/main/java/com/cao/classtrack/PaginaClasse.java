@@ -26,15 +26,21 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.TimeZone;
 
 public class PaginaClasse extends Fragment {
     private FragmentPaginaClasseBinding binding;
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     private final ApiHelper apiHelper = new ApiHelper();
-
-    private int ora = 0;
-    private String giornoSettimana = "lunedi";
+    private final int UPDATE_INTERVAL_MS = 60 * 1000; // 1 minuto
+    private final Runnable updateRunnable = new Runnable() {
+        @Override
+        public void run() {
+            aggiornaDati();
+            handler.postDelayed(this, UPDATE_INTERVAL_MS);
+        }
+    };
 
     @Nullable
     @Override
@@ -51,14 +57,29 @@ public class PaginaClasse extends Fragment {
 
         enforceFullScreen();
 
-        aggiornaDati();
+        handler.post(updateRunnable);
     }
     private void aggiornaDati() {
         new Thread(() -> {
             // Ottieni i dati dalla API
             SharedPreferences preferences = requireActivity().getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
             int ID_aula = preferences.getInt("aula",-1);
-            JSONObject classeDocente = apiHelper.getClasseEDocenteAttuale(ID_aula,"lunedi",8);
+            // Ottieni ora corrente
+            SimpleDateFormat sdfOra = new SimpleDateFormat("H", Locale.ITALY);
+            sdfOra.setTimeZone(TimeZone.getTimeZone("Europe/Rome"));
+            int oraCorrente = Integer.parseInt(sdfOra.format(new Date()));
+
+            SimpleDateFormat sdfGiorno = new SimpleDateFormat("EEEE", Locale.ITALY);
+            sdfGiorno.setTimeZone(TimeZone.getTimeZone("Europe/Rome"));
+            String giornoConAccento = sdfGiorno.format(new Date()).toLowerCase();
+            String giorno = giornoConAccento
+                    .replace("lunedì", "lunedi")
+                    .replace("martedì", "martedi")
+                    .replace("mercoledì", "mercoledi")
+                    .replace("giovedì", "giovedi")
+                    .replace("venerdì", "venerdi");
+
+            JSONObject classeDocente = apiHelper.getClasseEDocenteAttuale(ID_aula,giorno,oraCorrente);
             if(classeDocente != null){
                 try {
                     String classe = classeDocente.getString("annoSezione") + " " + classeDocente.getString("indirizzo");
@@ -102,6 +123,7 @@ public class PaginaClasse extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        handler.removeCallbacks(updateRunnable);
         binding = null;
     }
 }
