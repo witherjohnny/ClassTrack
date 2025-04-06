@@ -146,8 +146,8 @@ public class PaginaPiano extends Fragment {
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() ->{
-            //ArrayList<JSONObject> classeDocente = apiHelper.searchDocentiOClasse(q,"lunedi",11);
-            ArrayList<JSONObject> classeDocente = apiHelper.searchDocentiOClasse(q,giorno,oraCorrente);
+            ArrayList<JSONObject> classeDocente = apiHelper.searchDocentiOClasse(q,"lunedi",11);
+            //ArrayList<JSONObject> classeDocente = apiHelper.searchDocentiOClasse(q,giorno,oraCorrente);
             String txt = "";
             if(classeDocente !=null){
                 for (JSONObject ris: classeDocente) {
@@ -155,7 +155,7 @@ public class PaginaPiano extends Fragment {
                         String type = ris.getString("type");
                         JSONObject result = ris.getJSONObject("result");
                         String docente = result.getString("nomeCognome").trim();
-                        String docente2 = result.getString("nomeCognome2").trim();
+
                         String classe = result.getString("annoSezione").trim();
                         String indirizzo = result.getString("indirizzo").trim();
                         String lotto = result.getString("area_name").trim();
