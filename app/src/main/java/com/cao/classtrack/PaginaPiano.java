@@ -53,7 +53,7 @@ public class PaginaPiano extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setFullscreenMode();
         SharedPreferences preferences = requireActivity().getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
-        String lotto = preferences.getString("lotto_name","brooooo non hai selezionato un lottoooooo");
+        String lotto = preferences.getString("lotto_name","Lotto");
         String piano = preferences.getString("piano","Piano");
         handler.post(() -> {
             binding.textLotto.setText(lotto.trim());
@@ -146,10 +146,11 @@ public class PaginaPiano extends Fragment {
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() ->{
-            ArrayList<JSONObject> classeDocente = apiHelper.searchDocentiOClasse(q,"lunedi",11);
-            //ArrayList<JSONObject> classeDocente = apiHelper.searchDocentiOClasse(q,giorno,oraCorrente);
+            //ArrayList<JSONObject> classeDocente = apiHelper.searchDocentiOClasse(q,"lunedi",11);
+            ArrayList<JSONObject> classeDocente = apiHelper.searchDocentiOClasse(q,giorno,oraCorrente);
             String txt = "";
             if(classeDocente !=null){
+                String room = "";
                 for (JSONObject ris: classeDocente) {
                     try{
                         String type = ris.getString("type");
@@ -159,20 +160,31 @@ public class PaginaPiano extends Fragment {
                         String classe = result.getString("annoSezione").trim();
                         String indirizzo = result.getString("indirizzo").trim();
                         String lotto = result.getString("area_name").trim();
-                        String room = result.getString("room_name").trim();
+                        room = result.getString("room_name").trim();
                         if(type.equals("docente")){
 
                             txt +="Il prof. "+docente+" si trova nel lotto "+ lotto +" in aula "+ room +"\r\n";
                         }else if ( type.equals("classe")){
                             txt +="La classe "+classe+indirizzo+" si trova nel lotto "+  lotto +" in aula "+ room +"\r\n";
                         }
+
                     } catch (JSONException e) {
                         Log.e("ApiRequest", "Errore nel parsing del JSON: " + e.getMessage());
                     }
                 }
                 String finalTxt = txt;
+                String finalRoom = room;
                 handler.post(() ->{
                     binding.textViewRisultato.setText(finalTxt);
+
+
+                    int id = getResources().getIdentifier(finalRoom, "drawable", requireContext().getPackageName());
+
+                    if (id != 0) {
+                        binding.imageView.setImageResource(id);
+                    } else {
+                        // immagine non trovata
+                    }
                 });
 
 
