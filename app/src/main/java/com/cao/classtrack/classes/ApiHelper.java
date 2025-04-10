@@ -13,14 +13,13 @@ import java.util.ArrayList;
 
 public class ApiHelper {
 
-    private static final String API_URL = "http://192.168.1.100/PHP/ClassTrackphp/tablet/"; // Cambia localhost con IP server
+    private static final String API_URL = "http://192.168.71.1/cao/classtrack/ClassTrackAPI/API/"; // Cambia localhost con IP server
     private OkHttpClient client;
 
     public ApiHelper() {
 
         this.client = new OkHttpClient();
     }
-
 
     public ArrayList<JSONObject> getDocenti() {
         ArrayList<JSONObject> result = new ArrayList<>();
