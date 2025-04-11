@@ -119,20 +119,28 @@ public class ChoiceFragment extends Fragment {
         autoCompleteAula.setVisibility(View.GONE);
         spinnerLotti.setVisibility(View.GONE);
         spinnerPiani.setVisibility(View.GONE);
+        binding.textViewPiano.setVisibility(View.GONE);
+        binding.textViewLotto.setVisibility(View.GONE);
         // Gestione visibilità in base alla scelta
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.radioBacheca) {
                 autoCompleteAula.setVisibility(View.VISIBLE);
                 spinnerLotti.setVisibility(View.GONE);
                 spinnerPiani.setVisibility(View.GONE);
+                binding.textViewPiano.setVisibility(View.GONE);
+                binding.textViewLotto.setVisibility(View.GONE);
             } else if (checkedId == R.id.radioLotto) {
                 autoCompleteAula.setVisibility(View.GONE);
                 spinnerLotti.setVisibility(View.VISIBLE);
                 spinnerPiani.setVisibility(View.VISIBLE);
+                binding.textViewPiano.setVisibility(View.VISIBLE);
+                binding.textViewLotto.setVisibility(View.VISIBLE);
             }else{
                 autoCompleteAula.setVisibility(View.GONE);
                 spinnerLotti.setVisibility(View.GONE);
                 spinnerPiani.setVisibility(View.GONE);
+                binding.textViewPiano.setVisibility(View.GONE);
+                binding.textViewLotto.setVisibility(View.GONE);
             }
         });
         //codice per riempire le opzioni dei campi
