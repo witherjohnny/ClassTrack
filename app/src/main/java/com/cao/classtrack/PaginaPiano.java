@@ -67,6 +67,7 @@ public class PaginaPiano extends Fragment {
 
             ArrayList<JSONObject> docenti = apiHelper.getDocenti();
             ArrayList<JSONObject> classi = apiHelper.getClassi();
+            ArrayList<JSONObject> rooms = apiHelper.getRooms();
 
             try {
                 ArrayList<String> suggestions = new ArrayList<>();
@@ -82,6 +83,13 @@ public class PaginaPiano extends Fragment {
 
                     suggestions.add(classe);
                 }
+                for (int i = 0; i < classi.size(); i++) {
+                    JSONObject obj = classi.get(i);
+                    String room = obj.getString("room_name");
+
+                    suggestions.add(room);
+                }
+
 
                 Handler handler = new Handler(Looper.getMainLooper());
                 handler.post(() -> {
@@ -103,15 +111,12 @@ public class PaginaPiano extends Fragment {
     public void inizializzaSearchBar(){
         AutoCompleteTextView searchView = binding.searchView;
 
-        String[] suggerimenti = {"Aula 101", "Aula 102", "Laboratorio 3", "Aula Magna"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(),
-                android.R.layout.simple_dropdown_item_1line, suggerimenti);
-
-        searchView.setAdapter(adapter);
-        searchView.setThreshold(1);
-
-
-
+//        String[] suggerimenti = {"Aula 101", "Aula 102", "Laboratorio 3", "Aula Magna"};
+//        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(),
+//                android.R.layout.simple_dropdown_item_1line, suggerimenti);
+//
+//        searchView.setAdapter(adapter);
+//        searchView.setThreshold(1);
 
 
         // Gestisci invio
@@ -160,12 +165,38 @@ public class PaginaPiano extends Fragment {
                         String classe = result.getString("annoSezione").trim();
                         String indirizzo = result.getString("indirizzo").trim();
                         String lotto = result.getString("area_name").trim();
+                        String colorLotto = lotto.equals("l3") ? "arancione" : (lotto.equals("l2") ? "giallo": "rosso");
                         room = result.getString("room_name").trim();
+                        Integer piano = null;
+                        if (room.length() >= 3) {
+                            char lettera = room.charAt(2);
+                            if (lettera >= 'a' && lettera <= 'd') {
+                                if(lotto != "l3")
+                                    piano = (lettera - 'a')-1; // 'a' = -1, 'b' = 0, etc.
+                                else{
+                                    piano = (lettera - 'a'); // a = 0 , b = 1
+                                }
+                            }
+                        }
                         if(type.equals("docente")){
+                            if(piano != null){
+                                txt +="Il prof. "+docente+" si trova nel lotto "+ colorLotto +" nel piano "+ piano+" in aula "+ room +"\r\n";
+                            }else{
+                                txt +="Il prof. "+docente+" si trova nel lotto "+ colorLotto +" in aula "+ room +"\r\n";
+                            }
 
-                            txt +="Il prof. "+docente+" si trova nel lotto "+ lotto +" in aula "+ room +"\r\n";
                         }else if ( type.equals("classe")){
-                            txt +="La classe "+classe+indirizzo+" si trova nel lotto "+  lotto +" in aula "+ room +"\r\n";
+                            if(piano != null) {
+                                txt += "La classe " + classe + indirizzo + " si trova nel lotto " + colorLotto + " nel piano " + piano + " in aula " + room + "\r\n";
+                            }else{
+                                txt +="La classe "+classe+indirizzo+" si trova nel lotto "+  colorLotto +" in aula "+ room +"\r\n";
+                            }
+                        }else if( type.equals("room")) {
+                            if (piano != null) {
+                                txt += "L'aula " + room + " si trova nel lotto " + colorLotto + " nel piano " + piano + "\r\n";
+                            } else {
+                                txt += "L'aula " + room + " si trova nel lotto " + colorLotto + "\r\n";
+                            }
                         }
 
                     } catch (JSONException e) {
