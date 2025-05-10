@@ -9,10 +9,6 @@
     android:theme="@style/ThemeOverlay.ClassTrack.FullscreenContainer"
     tools:context=".PaginaPiano">
 
-    <!-- The primary full-screen view. This can be replaced with whatever view
-         is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc. -->
-
     <TextView
         android:id="@+id/fullscreen_content"
         android:layout_width="0dp"
@@ -23,89 +19,91 @@
         android:textColor="?attr/fullscreenTextColor"
         android:textSize="50sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <AutoCompleteTextView
         android:id="@+id/searchView"
-        android:layout_width="628dp"
-        android:layout_height="78dp"
-        android:layout_marginTop="28dp"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="128dp"
+        android:layout_marginLeft="128dp"
+        android:layout_marginTop="42dp"
+        android:layout_marginEnd="128dp"
+        android:layout_marginRight="128dp"
         android:background="@drawable/search_background"
         android:hint="Cerca..."
         android:imeOptions="actionSearch"
         android:inputType="text"
         android:padding="16dp"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.513"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
+    <!-- Lotto -->
     <TextView
         android:id="@+id/textLotto"
-        android:layout_width="406dp"
-        android:layout_height="127dp"
-        android:layout_marginStart="148dp"
-        android:layout_marginLeft="148dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:gravity="center"
         android:keepScreenOn="true"
         android:text="Lotto"
         android:textAppearance="@style/TextAppearance.AppCompat.Display3"
         android:textColor="@color/black"
         android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/searchView"
+        app:layout_constraintEnd_toStartOf="@id/textPiano"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+        app:layout_constraintWidth_percent="0.48" />
 
+    <!-- Piano -->
     <TextView
         android:id="@+id/textPiano"
-        android:layout_width="439dp"
-        android:layout_height="132dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
         android:gravity="center"
         android:keepScreenOn="true"
         android:text="Piano"
         android:textAppearance="@style/TextAppearance.AppCompat.Display3"
         android:textColor="@color/black"
         android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/searchView"
+        app:layout_constraintStart_toEndOf="@id/textLotto"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.407"
-        app:layout_constraintStart_toEndOf="@+id/textLotto"
-        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+        app:layout_constraintWidth_percent="0.48" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-
-        app:layout_constraintTop_toBottomOf="@+id/textViewRisultato"
-        app:layout_constraintVertical_bias="0.0"
-        tools:src="@tools:sample/backgrounds/scenic"/>
-
+    <!-- Risultato -->
     <TextView
         android:id="@+id/textViewRisultato"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
+        android:text=""
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/textLotto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Mappa o immagine -->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="40dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintTop_toBottomOf="@id/textViewRisultato"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/fullscreen_content"
-        app:layout_constraintTop_toBottomOf="@+id/textLotto" />
-
-    <!-- This FrameLayout insets its children based on system windows using
-         android:fitsSystemWindows. -->
-
+        tools:src="@tools:sample/backgrounds/scenic" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

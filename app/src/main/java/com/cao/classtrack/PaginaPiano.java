@@ -51,12 +51,13 @@ public class PaginaPiano extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setFullscreenMode();
+        enforceFullScreen();
         SharedPreferences preferences = requireActivity().getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
         String lotto = preferences.getString("lotto_name","Lotto");
         String piano = preferences.getString("piano","Piano");
+        String colorLotto = lotto.equals("l3") ? "arancione" : (lotto.equals("l2") ? "giallo": "rosso");
         handler.post(() -> {
-            binding.textLotto.setText(lotto.trim());
+            binding.textLotto.setText("Lotto "+colorLotto);
             binding.textPiano.setText("Piano: "+piano.trim());
         });
 
@@ -83,8 +84,8 @@ public class PaginaPiano extends Fragment {
 
                     suggestions.add(classe);
                 }
-                for (int i = 0; i < classi.size(); i++) {
-                    JSONObject obj = classi.get(i);
+                for (int i = 0; i < rooms.size(); i++) {
+                    JSONObject obj = rooms.get(i);
                     String room = obj.getString("room_name");
 
                     suggestions.add(room);
@@ -171,7 +172,7 @@ public class PaginaPiano extends Fragment {
                         if (room.length() >= 3) {
                             char lettera = room.charAt(2);
                             if (lettera >= 'a' && lettera <= 'd') {
-                                if(lotto != "l3")
+                                if(!lotto.equals("l3") )
                                     piano = (lettera - 'a')-1; // 'a' = -1, 'b' = 0, etc.
                                 else{
                                     piano = (lettera - 'a'); // a = 0 , b = 1
@@ -227,7 +228,7 @@ public class PaginaPiano extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setFullscreenMode();
+
     }
 
     @Override
@@ -236,12 +237,16 @@ public class PaginaPiano extends Fragment {
         binding = null;
     }
 
-    private void setFullscreenMode() {
+    private void enforceFullScreen() {
+        int flags = View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+
         if (getActivity() != null && getActivity().getWindow() != null) {
-            getActivity().getWindow().setFlags(
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN
-            );
+            getActivity().getWindow().getDecorView().setSystemUiVisibility(flags);
+            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
     }
 }
