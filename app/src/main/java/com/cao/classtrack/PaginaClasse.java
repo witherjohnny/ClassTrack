@@ -67,6 +67,7 @@ public class PaginaClasse extends Fragment {
             // Ottieni ora corrente
             SimpleDateFormat sdfOra = new SimpleDateFormat("H", Locale.ITALY);
             sdfOra.setTimeZone(TimeZone.getTimeZone("Europe/Rome"));
+
             int oraCorrente = Integer.parseInt(sdfOra.format(new Date()));
 
             SimpleDateFormat sdfGiorno = new SimpleDateFormat("EEEE", Locale.ITALY);
@@ -84,14 +85,20 @@ public class PaginaClasse extends Fragment {
                 try {
                     String classe = classeDocente.getString("annoSezione") + " " + classeDocente.getString("indirizzo");
                     String docente = classeDocente.getString("nomeCognome");
+                    String docente2 = classeDocente.getString("nomeCognome2");
                     // Aggiorna i TextView nella UI Thread
                     handler.post(() -> {
                         binding.textClasse.setText(classe.trim());
-                        binding.textDocente.setText(docente.trim());
+                        binding.textDocente.setText(docente.trim()+"\n\r"+docente2.trim());
                     });
                 } catch (JSONException e) {
                     Log.e("ApiRequest", "Errore nel parsing del JSON: " + e.getMessage());
                 }
+            }else{
+                handler.post(() -> {
+                    binding.textClasse.setText("CLASSE");
+                    binding.textDocente.setText("DOCENTE");
+                });
             }
 
         }).start();
