@@ -181,20 +181,20 @@ public class PaginaPiano extends Fragment {
                         }
                         if(type.equals("docente")){
                             if(piano != null){
-                                txt +="Il prof. "+docente+" si trova nel lotto "+ colorLotto +" nel piano "+ piano+" in aula "+ room +"\r\n";
+                                txt +="Il prof. "+docente+" si trova nel lotto "+ colorLotto +" al piano "+ piano+" in aula "+ room +"\r\n";
                             }else{
                                 txt +="Il prof. "+docente+" si trova nel lotto "+ colorLotto +" in aula "+ room +"\r\n";
                             }
 
                         }else if ( type.equals("classe")){
                             if(piano != null) {
-                                txt += "La classe " + classe + indirizzo + " si trova nel lotto " + colorLotto + " nel piano " + piano + " in aula " + room + "\r\n";
+                                txt += "La classe " + classe + indirizzo + " si trova nel lotto " + colorLotto + " al piano " + piano + " in aula " + room + "\r\n";
                             }else{
                                 txt +="La classe "+classe+indirizzo+" si trova nel lotto "+  colorLotto +" in aula "+ room +"\r\n";
                             }
                         }else if( type.equals("room")) {
                             if (piano != null) {
-                                txt += "L'aula " + room + " si trova nel lotto " + colorLotto + " nel piano " + piano + "\r\n";
+                                txt += "L'aula " + room + " si trova nel lotto " + colorLotto + " al piano " + piano + "\r\n";
                             } else {
                                 txt += "L'aula " + room + " si trova nel lotto " + colorLotto + "\r\n";
                             }
